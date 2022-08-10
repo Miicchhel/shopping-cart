@@ -53,9 +53,10 @@ const addToCart = async (itemID) => {
   const cartItems = document.querySelector('.cart__items');
   const data = await fetchItem(itemID);
   const { id: sku, title: name, price: salePrice } = data;
-  cartItems.appendChild(createCartItemElement({ sku, name, salePrice }));
   arrayCarinhos.push({ sku, name, salePrice });
-  console.log(arrayCarinhos);
+  cartItems.appendChild(createCartItemElement(arrayCarinhos[arrayCarinhos.length - 1]));
+  // arrayCarinhos.forEach((item) => cartItems.appendChild(createCartItemElement(item)));
+  // console.log(arrayCarinhos);
 };
 
 const callAddToCart = (event) => {
