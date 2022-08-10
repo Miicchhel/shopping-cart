@@ -59,12 +59,12 @@ const addToCart = async (itemID) => {
 };
 
 const callAddToCart = (event) => {
-  const elemento = event.target.parentNode.firstChild;
+  const elemento = event.target.parentElement.firstChild;
   addToCart(elemento.innerText);
 };
 
 window.onload = async () => { 
-  showProducts('computador');
-  const btnShowProducts = document.querySelector('.items');
-  btnShowProducts.addEventListener('click', callAddToCart);
+  await showProducts('computador');
+  const btnShowProducts = document.querySelectorAll('.item__add');
+  btnShowProducts.forEach((element) => element.addEventListener('click', callAddToCart));
 };
