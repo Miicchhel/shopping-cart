@@ -41,6 +41,7 @@ const cartItemClickListener = (event) => {
   const skuNumero = event.target.innerText.slice(5, 18);
   const index = arrayCarinhos.findIndex(({ sku }) => sku === skuNumero);
   arrayCarinhos.splice(index, 1);
+  saveCartItems(JSON.stringify(arrayCarinhos));
   event.target.remove();
 };
 
@@ -51,15 +52,21 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+const cartItems = document.querySelector('.cart__items');
+const showItemsSaved = () => {
+  const arrayItems = JSON.parse(localStorage.getItem('cartItems'));
+  arrayItems.forEach((item) => {
+    cartItems.appendChild(createCartItemElement(item));
+    arrayCarinhos.push(item);
+  });
+};
 
 const addToCart = async (itemID) => {
-  const cartItems = document.querySelector('.cart__items');
   const data = await fetchItem(itemID);
   const { id: sku, title: name, price: salePrice } = data;
   arrayCarinhos.push({ sku, name, salePrice });
+  saveCartItems(JSON.stringify(arrayCarinhos));
   cartItems.appendChild(createCartItemElement(arrayCarinhos[arrayCarinhos.length - 1]));
-  // arrayCarinhos.forEach((item) => cartItems.appendChild(createCartItemElement(item)));
-  // console.log(arrayCarinhos);
 };
 
 const callAddToCart = (event) => {
@@ -69,6 +76,12 @@ const callAddToCart = (event) => {
 
 window.onload = async () => { 
   await showProducts('computador');
+
+  if (localStorage.length !== 0) {
+    showItemsSaved();
+    
+  }
+
   const btnShowProducts = document.querySelectorAll('.item__add');
   btnShowProducts.forEach((element) => element.addEventListener('click', callAddToCart));
 };
