@@ -22,7 +22,7 @@ describe('1 - Teste a função fetchProducts', () => {
 
   it('verificando se fetchProducts("computador") retorna um objeto igual ao objto computadorSearch', async () => {
     const esperado = await fetchProducts('computador');
-    const resultado = computadorSearch;
+    const resultado = computadorSearch
     expect(esperado).toEqual(resultado);
   });
 
