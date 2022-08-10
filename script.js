@@ -35,11 +35,12 @@ const showProducts = async (produto) => {
   });
 };
 
-const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+// const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
-  const teste = event.target.innerText.slice(5, 18);
-  arrayCarinhos = arrayCarinhos.filter(({ sku }) => sku !== teste);
+  const skuNumero = event.target.innerText.slice(5, 18);
+  const index = arrayCarinhos.findIndex(({ sku }) => sku === skuNumero);
+  arrayCarinhos.splice(index, 1);
   event.target.remove();
 };
 
