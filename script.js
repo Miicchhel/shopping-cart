@@ -1,4 +1,4 @@
-let arrayCarinhos = [];
+const arrayCarinhos = [];
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
