@@ -79,7 +79,6 @@ window.onload = async () => {
 
   if (localStorage.length !== 0) {
     showItemsSaved();
-    
   }
 
   const btnShowProducts = document.querySelectorAll('.item__add');
