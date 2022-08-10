@@ -1,4 +1,4 @@
-const arrayCarinhos = [];
+let arrayCarinhos = [];
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -38,7 +38,9 @@ const showProducts = async (produto) => {
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
-  console.log(event.target);
+  const teste = event.target.innerText.slice(5, 18);
+  arrayCarinhos = arrayCarinhos.filter(({ sku }) => sku !== teste);
+  event.target.remove();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
