@@ -1,5 +1,6 @@
 let arrayCarinhos = [];
 const cartItems = document.querySelector('.cart__items');
+const items = document.querySelector('.items');
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -27,9 +28,23 @@ const createProductItemElement = ({ sku, name, image }) => {
   return section;
 };
 
+const loadingProduct = () => {
+  const texto = '<section class=item><span class=loading>carregando...</span></section>';
+  const item = document.querySelector('.items');
+  for (let index = 0; index < 13; index += 1) {
+    item.innerHTML += texto;
+  }
+};
+
+const endLoadingProduct = () => {
+  const item = document.querySelectorAll('.item');
+  item.forEach((e) => e.remove());
+};
+
 const showProducts = async (produto) => {
-  const items = document.querySelector('.items');
+  loadingProduct();
   const { results } = await fetchProducts(produto);
+  endLoadingProduct();
   results.forEach((item) => {
     const { id: sku, title: name, thumbnail: image } = item; 
     items.appendChild(createProductItemElement({ sku, name, image }));
@@ -84,7 +99,9 @@ const emptyCart = () => {
 // const soma = () => {};
 
 window.onload = async () => { 
+  // loadingProduct();
   await showProducts('computador');
+  // endLoadingProduct();
 
   if (localStorage.length !== 0) {
     showItemsSaved();
