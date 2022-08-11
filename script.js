@@ -1,6 +1,16 @@
 let arrayCarinhos = [];
 const cartItems = document.querySelector('.cart__items');
 const items = document.querySelector('.items');
+const totalPrice = document.querySelector('.total-price');
+
+const sumTotal = (array) => {
+  if (arrayCarinhos.length > 0) {
+    const soma = array.reduce((sum, { salePrice }) => sum + salePrice, 0);
+    totalPrice.innerText = soma;
+    return;
+  }
+  totalPrice.innerText = '';
+};
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -59,6 +69,7 @@ const cartItemClickListener = (event) => {
   arrayCarinhos.splice(index, 1);
   saveCartItems(JSON.stringify(arrayCarinhos));
   event.target.remove();
+  sumTotal(arrayCarinhos);
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -75,6 +86,7 @@ const showItemsSaved = () => {
     cartItems.appendChild(createCartItemElement(item));
     arrayCarinhos.push(item);
   });
+  sumTotal(arrayCarinhos);
 };
 
 const addToCart = async (itemID) => {
@@ -83,6 +95,7 @@ const addToCart = async (itemID) => {
   arrayCarinhos.push({ sku, name, salePrice });
   saveCartItems(JSON.stringify(arrayCarinhos));
   cartItems.appendChild(createCartItemElement(arrayCarinhos[arrayCarinhos.length - 1]));
+  sumTotal(arrayCarinhos);
 };
 
 const callAddToCart = (event) => {
@@ -94,9 +107,9 @@ const emptyCart = () => {
   arrayCarinhos = [];
   saveCartItems(JSON.stringify(arrayCarinhos));
   document.querySelectorAll('.cart__item').forEach((e) => e.remove());
+  soma = 0;
+  totalPrice.innerText = '';
 };
-
-// const soma = () => {};
 
 window.onload = async () => { 
   // loadingProduct();
@@ -105,11 +118,12 @@ window.onload = async () => {
 
   if (localStorage.length !== 0) {
     showItemsSaved();
+    // soma();
   }
 
   const btnShowProducts = document.querySelectorAll('.item__add');
   btnShowProducts.forEach((element) => element.addEventListener('click', callAddToCart));
-
+  
   const btnEmptyCart = document.querySelector('.empty-cart');
   btnEmptyCart.addEventListener('click', emptyCart);
 };
